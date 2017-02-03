@@ -13,7 +13,7 @@ System.config({
   map: {
     // our app is within the app folder
     'app': 'app',
-    'main': 'app/publish/app/main.js',
+    'main': 'app/main.js',
 
     // angular bundles
     '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
@@ -32,7 +32,7 @@ System.config({
   },
   // packages tells the System loader how to load when no filename and/or no extension
   packages: {
-    'app': { main: './publish/app/main.js', defaultExtension: 'js' },
+    'app': { main: './main.js', defaultExtension: 'js' },
     'api' : { defaultExtension : 'js' },
     'rxjs': { defaultExtension: 'js' },
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HeroService } from '../../common/services/hero.service';
 
-import { Hero } from './hero';
-import { HeroService } from './hero.service';
+
 
 @Component({
   moduleId: module.id,
@@ -11,7 +11,7 @@ import { HeroService } from './hero.service';
   styleUrls: ['dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  heroes: Hero[] = [];
+  heroes: any[] = [];
 
   constructor(
     private router: Router,
@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
       .then(heroes => this.heroes = heroes.slice(1, 5));
   }
 
-  gotoDetail(hero: Hero): void {
+  gotoDetail(hero: any): void {
     let link = ['/detail', hero.id];
     this.router.navigate(link);
   }

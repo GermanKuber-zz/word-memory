@@ -1,17 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { Hero } from './hero';
-import { HeroService } from './hero.service';
+
+import { HeroService } from '../../common/services/hero.service';
+
 
 @Component({
   moduleId: module.id,
   selector: 'my-hero-detail',
-  templateUrl: 'hero-detail.component.html',
-  styleUrls: ['hero-detail.component.css']
+  templateUrl: 'login.component.html',
+  styleUrls: ['login.component.css']
 })
-export class HeroDetailComponent implements OnInit {
-  @Input() hero: Hero;
+export class LoginComponent implements OnInit {
+  @Input() hero: any;
   @Output() close = new EventEmitter();
   error: any;
   navigated = false; // true if navigated here
@@ -30,7 +31,7 @@ export class HeroDetailComponent implements OnInit {
             .then(hero => this.hero = hero);
       } else {
         this.navigated = false;
-        this.hero = new Hero();
+
       }
     });
   }
@@ -45,7 +46,7 @@ export class HeroDetailComponent implements OnInit {
         .catch(error => this.error = error); // TODO: Display error message
   }
 
-  goBack(savedHero: Hero = null): void {
+  goBack(savedHero: any = null): void {
     this.close.emit(savedHero);
     if (this.navigated) { window.history.back(); }
   }

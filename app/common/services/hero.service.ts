@@ -3,7 +3,7 @@ import { Headers, Http, Response } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Hero } from './hero';
+
 
 @Injectable()
 export class HeroService {
@@ -11,27 +11,27 @@ export class HeroService {
 
   constructor(private http: Http) { }
 
-  getHeroes(): Promise<Hero[]> {
+  getHeroes(): Promise<any[]> {
     return this.http
       .get(this.heroesUrl)
       .toPromise()
-      .then(response => response.json().data as Hero[])
+      .then(response => response.json().data as any[])
       .catch(this.handleError);
   }
 
-  getHero(id: number): Promise<Hero> {
+  getHero(id: number): Promise<any> {
     return this.getHeroes()
       .then(heroes => heroes.find(hero => hero.id === id));
   }
 
-  save(hero: Hero): Promise<Hero> {
+  save(hero: any): Promise<any> {
     if (hero.id) {
       return this.put(hero);
     }
     return this.post(hero);
   }
 
-  delete(hero: Hero): Promise<Response> {
+  delete(hero: any): Promise<Response> {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -44,7 +44,7 @@ export class HeroService {
   }
 
   // Add new Hero
-  private post(hero: Hero): Promise<Hero> {
+  private post(hero: any): Promise<any> {
     let headers = new Headers({
       'Content-Type': 'application/json'
     });
@@ -57,7 +57,7 @@ export class HeroService {
   }
 
   // Update existing Hero
-  private put(hero: Hero): Promise<Hero> {
+  private put(hero: any): Promise<any> {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 

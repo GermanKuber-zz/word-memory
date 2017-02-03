@@ -1,0 +1,7 @@
+.field-game-container > .col-xs-5{
+    text-align: center;
+    height: 150px; 
+    vertical-align: middle;
+    margin-top: 25px;   
+    border: 1px solid black;
+}
