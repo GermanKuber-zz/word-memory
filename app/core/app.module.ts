@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -23,19 +23,27 @@ import { AdminComponent } from '../modules/admin/admin.component';
 import { SignificateGame } from '../common/services/significateGame.service';
 import { GameRouterProvider } from '../modules/game/game.routing.component';
 import { GameComponent } from '../modules/game/game.component';
-
+import { LocalStorageModule } from 'angular-2-local-storage';
+import { StorageService } from '../common/services/storage.service.';
+import { WordsService } from '../common/services/words.service';
+import { MathService } from '../common/services/math.service.';
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     DashboardRouterProvider,
     LoginRouterProvider,
     AdminRouterProvider,
-  GameRouterProvider,
+    GameRouterProvider,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 600 })
+    InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 600 }),
+    LocalStorageModule.withConfig({
+      prefix: 'my-app',
+      storageType: 'localStorage'
+    })
   ],
   declarations: [
     AppComponent,
@@ -46,7 +54,10 @@ import { GameComponent } from '../modules/game/game.component';
   ],
   providers: [
     HeroService,
-    SignificateGame
+    SignificateGame,
+    StorageService,
+    WordsService,
+    MathService
   ],
   bootstrap: [AppComponent]
 })

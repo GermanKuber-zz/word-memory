@@ -1,27 +1,46 @@
 <h1>Admin</h1>
-
-<form>
+<h3>Clear all - </h3> <button (click)="clearAll()" type="submit" class="btn btn-default">Clear All</button>
+<form [formGroup]="addWordForm" (ngSubmit)="save($event)">
   <div class="form-group">
     <label for="verboIngles">Verbo</label>
-    <input type="text" class="form-control" id="verboIngles" placeholder="Verbo">
+    <input formControlName="word" required type="text" class="form-control" id="verboIngles" placeholder="Verbo">
   </div>
 
-    <div class="form-group">
+  <div class="form-group">
     <label for="verboInglesPrimera">1º Columna</label>
-    <input type="text" class="form-control" id="verboInglesPrimera" placeholder="1º Columna">
+    <input formControlName="wordFirstColumns" required type="text" class="form-control" id="verboInglesPrimera" placeholder="1º Columna">
   </div>
-    <div class="form-group">
+  <div class="form-group">
     <label for="verboInglesSegunda">2º Columna</label>
-    <input type="text" class="form-control" id="verboInglesSegunda" placeholder="2º Columna">
+    <input formControlName="wordSecondColumns" required type="text" class="form-control" id="verboInglesSegunda" placeholder="2º Columna">
   </div>
   <div class="form-group">
     <label for="verboSignificado">Significado</label>
-    <input type="text" class="form-control" id="verboSignificado" placeholder="Significado">
+    <input formControlName="significate" required type="text" class="form-control" id="verboSignificado" placeholder="Significado">
   </div>
-  <div class="checkbox">
+  <!--<div class="checkbox">
     <label>
       <input type="checkbox"> Check me out
     </label>
-  </div>
+  </div>-->
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <table class="table table-condensed">
+      <tr>
+        <th>Verbo</th>
+        <th>1º Columna</th>
+        <th>2º Columna</th>
+        <th>Significado</th>
+      </tr>
+      <tr *ngFor="let item of list">
+        <td>{{item.word.word}}</td>
+        <td>{{item.wordFirstColumns.word}}</td>
+        <td>{{item.wordSecondColumns.word}}</td>
+        <td>{{item.significate.word}}</td>
+
+      </tr>
+    </table>
+  </div>
+</div>

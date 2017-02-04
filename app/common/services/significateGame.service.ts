@@ -7,29 +7,72 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { WordContainer, SignificateWordContainer, Word } from '../business/wordContainer';
+import { WordsService } from './words.service';
+import { MathService } from './math.service.';
 
 
 
 @Injectable()
 export class SignificateGame {
   //TODO Eliminar Test
-  private idGen = 0;
+  private position = 0;
   private started: boolean = false;
   private defaultStartCount: number = 15;
+  private listWord: Array<WordContainer>;
+  constructor(private wordsService: WordsService,
+    private mathService: MathService) {
+
+  }
+
   start(count: number): SignificateWordContainer {
     this.started = true;
+    this.listWord = this.wordsService.get();
+    this.position = 0;
     return this.getNext();
   }
   getNext(): SignificateWordContainer {
+
     if (this.started) {
-      var factore = new FactoryTest();
-      var returnValue =  factore.get()[0];
-      returnValue.word.word= `${this.idGen} - ${returnValue.word.word}`
-      ++this.idGen;
-      return returnValue;
+      var next = this.listWord[this.position++];
+      var container = new SignificateWordContainer();
+      container.word = next.word;
+      container.choose = new Array<Word>();
+      container.choose[0] = next.significate;
+      container.correct = next.significate;
+      var min = 0, max = this.listWord.length - 1;
+      this.listNumbers = new Array<number>();
+      container.choose.push(this.listWord[this.diferentNumber(min, max)].significate);
+      container.choose.push(this.listWord[this.diferentNumber(min, max)].significate);
+      container.choose.push(this.listWord[this.diferentNumber(min, max)].significate);
+      return container;
     } else {
       this.start(this.defaultStartCount);
     }
+  }
+  private listNumbers: Array<number>;
+  private diferentNumber(min, max): number {
+    var number = this.mathService.randomIntFromInterval(min, max);
+    var is = true;
+    while (is) {
+      var exist = false;
+      for (var i = 0; i < this.listNumbers.length; i++) {
+        var item = this.listNumbers[i];
+        if (item == number) {
+          exist = true;
+        }
+      }
+      if (exist == false) {
+        is = false;
+      } else {
+        number = this.mathService.randomIntFromInterval(min, max);
+      }
+
+    }
+    this.listNumbers.push(number);
+    return number;
+  }
+  stop(): void {
+    this.started = false;
   }
 }
 

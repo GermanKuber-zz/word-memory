@@ -3,9 +3,15 @@ export class WordContainer {
     wordFirstColumns: Word;
     wordSecondColumns: Word;
     significate: Word;
+    constructor(){
+        this.word = new Word();
+        this.wordFirstColumns = new Word();
+        this.wordSecondColumns = new Word();
+        this.significate = new Word();
+    }
 }
 export class Word {
-    id: number;
+    id: string;
     word: string;
     points: number;
 }

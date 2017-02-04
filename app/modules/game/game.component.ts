@@ -16,27 +16,35 @@ import { SignificateWordContainer, Word } from '../../common/business/wordContai
 export class GameComponent implements OnInit {
   significateWordContainer: SignificateWordContainer;
   status: string;
+  points:number= 0;
   nextEnable: boolean = false;
+  play: boolean = false;
   private isCorrect: boolean;
   constructor(private significateService: SignificateGame) {
   }
 
   ngOnInit(): void {
     this.significateWordContainer = this.significateService.start(10);
+    this.play = true;
 
   }
   chooseWord(word: Word): void {
-    if (word.id == this.significateWordContainer.correct.id) {
-      this.isCorrect = true;
-      this.status = "Correcto";
-    } else {
-      this.isCorrect = false;
-      this.status = "Error";
+    if (this.play) {
+      if (word.id == this.significateWordContainer.correct.id) {
+        this.isCorrect = true;
+        this.status = "Correcto";
+        ++this.points;
+      } else {
+        this.isCorrect = false;
+        this.status = "Error";
+      }
+      this.nextEnable = true;
+      this.play = false;
     }
-    this.nextEnable = true;
   }
   next(): void {
     this.nextEnable = false;
+    this.play = true;
     this.significateWordContainer = this.significateService.getNext();
   }
 }

@@ -1,9 +1,9 @@
+import { Word, WordContainer } from '../../common/business/wordContainer';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-
-import { HeroService } from '../../common/services/hero.service';
-
+import { WordsService } from '../../common/services/words.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   moduleId: module.id,
@@ -11,43 +11,38 @@ import { HeroService } from '../../common/services/hero.service';
   templateUrl: 'admin.component.html',
   styleUrls: ['admin.component.css']
 })
-export class AdminComponent implements OnInit {
-  @Input() hero: any;
-  @Output() close = new EventEmitter();
-  error: any;
-  navigated = false; // true if navigated here
-
+export class AdminComponent {
+  list: Array<WordContainer>;
+  doLogin(event) {
+    console.log(event);
+  }
+  public addWordForm = this.fb.group({
+    word: ["", Validators.required],
+    wordFirstColumns: ["", Validators.required],
+    wordSecondColumns: ["", Validators.required],
+    significate: ["", Validators.required]
+  });
   constructor(
-    private heroService: HeroService,
-    private route: ActivatedRoute) {
+    public fb: FormBuilder,
+    private wordsService: WordsService) {
+   this.reload();
   }
 
-  ngOnInit(): void {
-    this.route.params.forEach((params: Params) => {
-      if (params['id'] !== undefined) {
-        let id = +params['id'];
-        this.navigated = true;
-        this.heroService.getHero(id)
-            .then(hero => this.hero = hero);
-      } else {
-        this.navigated = false;
-        
-      }
-    });
+  save(event: any): void {
+    var word = new WordContainer();
+    word.word.word = this.addWordForm.value.word;
+    word.wordFirstColumns.word = this.addWordForm.value.wordFirstColumns;
+    word.wordSecondColumns.word = this.addWordForm.value.wordSecondColumns;
+    word.significate.word = this.addWordForm.value.significate;
+    this.wordsService.newWord(word);
+    this.addWordForm.reset();
+   this.reload();
   }
-
-  save(): void {
-    this.heroService
-        .save(this.hero)
-        .then(hero => {
-          this.hero = hero; // saved hero, w/ id if new
-          this.goBack(hero);
-        })
-        .catch(error => this.error = error); // TODO: Display error message
+  clearAll(): void {
+    this.wordsService.clearAll();
+    this.reload();
   }
-
-  goBack(savedHero: any = null): void {
-    this.close.emit(savedHero);
-    if (this.navigated) { window.history.back(); }
+  private reload():void{
+     this.list = this.wordsService.get();
   }
 }
